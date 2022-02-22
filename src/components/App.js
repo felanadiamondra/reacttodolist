@@ -1,15 +1,12 @@
 
-import '../styles/App.css';
-import AddTodo from './AddTodo';
-import Header from './Header';
-import TodoForm from './TodoForm';
+import React, {useState} from 'react'
+import '../styles/App.css'
+import TodoList from './TodoList';
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      {/* <AddTodo/> */}
-      <TodoForm/>
+    <div className='App'>
+      <TodoList/>
     </div>
   );
 }

@@ -1,46 +1,59 @@
-import React from 'react'
-import { useState } from 'react'
-import {TodoItem} from '../datas/TodoItem'
-
-function addTodo(){
-    
-}
+import React, {useState} from "react";
+import shortid from "shortid";
 
 class AddTodo extends React.Component{
     constructor(props){
         super(props);
-        this.state={
-            todos : TodoItem,
-            inputTodo : ""
+
+        this.state = {
+            inputTodo:"",
+            selectValue:""
         }
+
+        this.handleSelect = this.handleSelect.bind(this);
     }
-
-   submitTodo = (e) =>{
-       e.preventDefault();
-   }
-
-    addTodo = (e) => {
+    
+    handleSelect = (e) =>{
         this.setState({
-            [e.target.name] : e.target.value
+            selectValue : e.target.value 
+        })
+    }
+    
+    handleChange = (e) =>{
+        this.setState({
+            inputTodo: e.target.value
         })
     }
 
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        this.props.onSubmit({
+            id: shortid.generate(),
+            task : this.state.inputTodo,
+            priority: this.state.selectValue,
+            isChecked : false
+        }); 
+
+        this.setState({
+            inputTodo : ""
+        })
+    }
+    
     render(){
-        return (
-            <form onSubmit={this.submitTodo}>
-                <div>
-                    <input name='inputTodo'
+        return(
+            <form onSubmit={this.handleSubmit}>
+                <input
                     value={this.state.inputTodo}
-                    onClick={this.addTodo}/>
-                    <select>
-                        <option default>Priorité</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
-                </div>
+                    onChange={this.handleChange}
+                />
+                <select onChange={this.handleSelect} value={this.state.selectValue}>
+                    <option>Choose</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <button onClick={this.handleSubmit}>Add</button>
             </form>
-            
         )
     }
 }

@@ -1,6 +1,8 @@
 export const TodoItem = [
     {
-        todo :"",
-        priority:"" 
+        id : "id",
+        todo  : "Sleep",
+        priority : "High" ,
+        isChecked : false
     }
 ]

@@ -42,6 +42,7 @@ class TodoList extends React.Component{
         selectValue : e.target.value
     })
    }
+
    handleCheckboxChange = id =>{
        this.setState({
            todos : this.state.todos.map(todo =>{
@@ -54,6 +55,22 @@ class TodoList extends React.Component{
                    return todo
                }
            })
+       })
+   }
+
+   deleteTodo = e =>{
+       let remainingTodos = []
+       this.state.todos.map((todo) =>{
+           if(!todo.isChecked){
+            remainingTodos = [...remainingTodos, todo]
+           }
+       })
+    //    const remainingTodos = this.state.todos.filter((todo) =>{
+    //         return(todo.id !== id)
+    //    }) 
+
+       this.setState({
+           todos : remainingTodos
        })
    }
 
@@ -70,11 +87,13 @@ class TodoList extends React.Component{
                     onChange={this.handleChange}
                 />
                   <select onChange={this.handleSelectChange} value={this.state.selectValue}>
-                    <option>Choose</option>
+                    <option value="">Choose</option>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
                     <option value="Low">Low</option>
                 </select>
+
+                <button onClick={this.deleteTodo}>Supprimer</button>
 
                 <table>
                     <tr>
@@ -94,7 +113,7 @@ class TodoList extends React.Component{
                             // ))
 
                         
-                                 this.state.todos.filter(res =>
+                                this.state.todos.filter(res =>
                                 res.task.match(new RegExp(this.state.searchValue , "i"))).filter(
                                     res => res.priority.match(new RegExp(this.state.selectValue, "i"))
                                 ).
@@ -104,7 +123,8 @@ class TodoList extends React.Component{
                                              task={res.task}
                                               priority={res.priority}
                                                 isChecked={res.isChecked}
-                                                 handleCheckboxChange={() => this.handleCheckboxChange(res.id)}/>
+                                                 handleCheckboxChange={() => this.handleCheckboxChange(res.id)}
+                                                 deleteTodo={()=> this.deleteTodo(res.id)}/>
                                     )
                                 )
                         }
